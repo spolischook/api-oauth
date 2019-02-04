@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block article %}
+    <h1>Products:</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }}</li>
+        {% endfor %}
+    </ul>
+    <p><a href="{{ path('homepage') }}">Back to index</a></p>
+{% endblock %}

@@ -1,0 +1,8 @@
+api_products:
+    type:     rest
+    resource: App\Controller\API\ProductsController
+    prefix: api
+
+api_security:
+    resource: App\Controller\API\SecurityController
+    prefix: api

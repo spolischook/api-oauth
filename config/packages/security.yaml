@@ -1,13 +1,46 @@
 security:
+    encoders:
+        App\Security\User:
+            algorithm: argon2i
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+#        # used to reload user from session & other features (e.g. switch_user)
+#        app_user_provider:
+#            id: App\Security\UserProvider
+        oauth_user_provider:
+            id: hwi_oauth.user.provider
+        entity_provider:
+            id: hwi_oauth.user.provider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api:
+            pattern: ^/api/(?!doc|login).*
+            guard:
+                authenticators:
+                    - App\Security\TokenAuthenticator
+            provider: entity_provider
+
         main:
             anonymous: true
+#            stateless: true
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    google:             "/login/check-google"
+#                    my_custom_provider: "/login/check-custom"
+#                    my_github:          "/login/check-github"
+                login_path:        /login
+                use_forward:       false
+                failure_path:      /login
+
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider
+            provider: oauth_user_provider
+            logout:
+                path:   app_logout
 
             # activate different ways to authenticate
 
@@ -21,4 +54,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/doc, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/login/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: ROLE_USER }

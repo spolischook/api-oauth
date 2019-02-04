@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block article %}
+    <h1>Index page</h1>
+    {% if app.user %}
+        <h3><a href="{{ path('post_login_'~app.token.resourceOwnerName, {token: app.token.accessToken}) }}">Obtain api token</a></h3>
+    {% else %}
+        <h3>You should login first</h3>
+    {% endif %}
+    {{ dump(app.token) }}
+{% endblock %}
