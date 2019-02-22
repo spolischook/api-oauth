@@ -12,3 +12,5 @@ or any other domain that is used in redirect url setting.
 composer install
 bin/console server:start localhost:8001
 ```
+
+![Main page](doc/images/main.png)
