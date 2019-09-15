@@ -12,6 +12,12 @@ composer install
 bin/console server:start localhost:8001
 ```
 
+4. Read how to setup Google Oauth application and get credentials
+https://developers.google.com/identity/protocols/OAuth2  
+Actualy you should have somethnig like that:
+
+![Google app settings](doc/images/google_console_config.png)
+
 #### How it looks like
 
 ![Main page](doc/images/main.png)
